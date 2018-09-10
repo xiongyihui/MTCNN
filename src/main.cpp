@@ -27,6 +27,7 @@ int main(int argc, char **argv) {
 //    Camera.set(CV_CAP_PROP_FORMAT, CV_8UC3);
     Camera.set(CV_CAP_PROP_FRAME_WIDTH, 640);
     Camera.set(CV_CAP_PROP_FRAME_HEIGHT, 480);
+//    Camera.set(CV_CAP_PROP_BRIGHTNESS, 90);
 
     //Open camera
     cout << "Opening Camera..." << endl;
@@ -45,6 +46,8 @@ int main(int argc, char **argv) {
     mtcnn.SetMinFace(60);
 
     while (1) {
+        finalBbox.clear();
+
         Camera.grab();
         Camera.retrieve(frame);
         
