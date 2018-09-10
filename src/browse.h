@@ -18,7 +18,7 @@ static void browse(const char *url)
 
 #endif
 
-#if linux || __FreeBSD__ || __sun&&__SVR4
+#if __linux__ || __FreeBSD__ || __sun&&__SVR4
 
 #include        <sys/types.h>
 #include        <sys/wait.h>
