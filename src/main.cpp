@@ -5,7 +5,7 @@
 #include "timing.h"
 
 #include "opencv2/opencv.hpp"
-
+#include "raspicam/raspicam_cv.h"
 
 using namespace cv;
 
@@ -21,12 +21,18 @@ int main(int argc, char **argv) {
 	}
 	const char *model_path = argv[1];
 
-	
-    VideoCapture cap(0);
+    raspicam::RaspiCam_Cv Camera;
 
-    if (!cap.isOpened())
+    //set camera params
+//    Camera.set(CV_CAP_PROP_FORMAT, CV_8UC3);
+    Camera.set(CV_CAP_PROP_FRAME_WIDTH, 640);
+    Camera.set(CV_CAP_PROP_FRAME_HEIGHT, 480);
+
+    //Open camera
+    cout << "Opening Camera..." << endl;
+    if (!Camera.open())
     {
-        cout << "video is not open" << endl;
+        cerr << "Error opening the camera" << endl;
         return -1;
     }
 
@@ -39,8 +45,9 @@ int main(int argc, char **argv) {
     mtcnn.SetMinFace(60);
 
     while (1) {
-        cap >> frame;
-
+        Camera.grab();
+        Camera.retrieve(frame);
+        
         ncnn_img = ncnn::Mat::from_pixels(frame.data, ncnn::Mat::PIXEL_BGR, frame.cols, frame.rows);
         double startTime = now();
         mtcnn.detect(ncnn_img, finalBbox);

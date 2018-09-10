@@ -5,6 +5,7 @@ project(mtcnn C CXX)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 find_package( OpenCV REQUIRED )
+find_package(raspicam REQUIRED)
 
 include_directories(
         ${CMAKE_CURRENT_LIST_DIR}/src/ncnn
@@ -33,5 +34,5 @@ add_definitions(-ftree-vectorize)
 add_definitions(-fvisibility=hidden -fvisibility-inlines-hidden)
 add_executable(mtcnn ${MTCNN_COMPILE_CODE} ${NCNN_COMPILE_CODE})
 
-TARGET_LINK_LIBRARIES(mtcnn ${OpenCV_LIBS})
+TARGET_LINK_LIBRARIES(mtcnn ${OpenCV_LIBS} ${raspicam_CV_LIBS})
 
